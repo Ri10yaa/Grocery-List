@@ -8,32 +8,24 @@ let option = true;
 console.log("\nGROCERY LIST\n");
 
 if (!fs.existsSync("list.txt")) {       // check if file exists or not, if exists, append the count else create and append
-    fsi.writefile("1");
-}
-else {
-    const data = fsi.readfile();
-    if (data.length == 0) {
-        fsi.writefile("1");
-    }
+    fsi.writefile('Grocery List');
 }
 
 
 const addItem = () => {
     const data = fsi.readfile();
 
-    var item_name = (prompt("Enter the item to be added:")).toString().toLowerCase();
+    var item_name = (prompt("Enter the item to be added:")).toLowerCase();
 
-    const pattern = new RegExp(',' + item_name + ',');
+    const pattern = new RegExp('^' + item_name + ',.*', 'gm');
     const match = data.match(pattern);
-
+    
     if (match == null) {    // check if item already exists
         var quantity = prompt("Enter the required quantity:");
 
-        const indx = mgeId.fetchID();   // fetch the ID for appending the current item
-        const line = "\n" + indx + "," + item_name + "," + quantity;
+        const line = "\n"+ item_name + "," + quantity;
 
         fsi.appendfile(line);       // append the item
-        mgeId.incrementID();    // increment the ID for keeping it ready to add next item
         console.log("Item added.\n");
     }
     else {
@@ -44,7 +36,7 @@ const addItem = () => {
 }
 
 const deleteItem = () => {
-    var item_to_delete = prompt("Select the number to delete : ");
+    var item_to_delete = (prompt("Enter the item name to delete : ")).toLowerCase();
 
     const data = fsi.readfile();
     const list_data = data.split('\n');
@@ -75,7 +67,7 @@ const deleteItem = () => {
 }
 
 const updateItem = () => {
-    let item_to_update = prompt("Select number to update the quantity : ");
+    let item_to_update = (prompt("Enter the item to update the quantity : ")).toLowerCase();
 
     const data = fsi.readfile();
     const pattern = new RegExp('^' + item_to_update + ',.*', 'gm');
@@ -85,7 +77,7 @@ const updateItem = () => {
         let qty = prompt("Enter the new quatity : ");
 
         const values = line[0].split(',');
-        values[2] = qty;
+        values[1] = qty;
         const newData = data.replace(line, values.join(','));   // replace the line with correct data
 
         fsi.writefile(newData);
@@ -107,7 +99,7 @@ const viewItems = () => {
     else {
         for (let i = 1; i < data.length; i++) {
             let item = data[i].split(',');
-            console.log(item[0] + ')' + item[1] + "-" + item[2]);
+            console.log(item[0] + '-' + item[1]);
         }
 
     }

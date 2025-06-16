@@ -7,6 +7,7 @@ const readfile = () => {
 
 const writefile = (data) => {
     fs.writeFileSync("list.txt",data);
+    
 }
 
 const appendfile = (data) => {
