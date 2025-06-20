@@ -3,7 +3,7 @@ const fsi = require('./file_ops.js');
 
 const fs = require('fs');
 
-let option = true;
+let option = true; 
 console.log("\nGROCERY LIST\n");
 
 if (!fs.existsSync("list.txt")) {       // check if file exists or not, if exists, append the count else create and append
